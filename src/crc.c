@@ -1,274 +1,46 @@
 #include <stdio.h>
 #include <stdint.h>
 
-    static uint32_t table[256];
-    static int have_table = 0;
+    static uint32_t table[256] = {
+        0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3, 
+        0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988, 0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91,
+        0x1db71064, 0x6ab020f2, 0xf3b97148, 0x84be41de, 0x1adad47d, 0x6ddde4eb, 0xf4d4b551, 0x83d385c7,
+        0x136c9856, 0x646ba8c0, 0xfd62f97a, 0x8a65c9ec, 0x14015c4f, 0x63066cd9, 0xfa0f3d63, 0x8d080df5,
+        0x3b6e20c8, 0x4c69105e, 0xd56041e4, 0xa2677172, 0x3c03e4d1, 0x4b04d447, 0xd20d85fd, 0xa50ab56b,
+        0x35b5a8fa, 0x42b2986c, 0xdbbbc9d6, 0xacbcf940, 0x32d86ce3, 0x45df5c75, 0xdcd60dcf, 0xabd13d59,
+        0x26d930ac, 0x51de003a, 0xc8d75180, 0xbfd06116, 0x21b4f4b5, 0x56b3c423, 0xcfba9599, 0xb8bda50f,
+        0x2802b89e, 0x5f058808, 0xc60cd9b2, 0xb10be924, 0x2f6f7c87, 0x58684c11, 0xc1611dab, 0xb6662d3d,
+        0x76dc4190, 0x01db7106, 0x98d220bc, 0xefd5102a, 0x71b18589, 0x06b6b51f, 0x9fbfe4a5, 0xe8b8d433, 
+        0x7807c9a2, 0x0f00f934, 0x9609a88e, 0xe10e9818, 0x7f6a0dbb, 0x086d3d2d, 0x91646c97, 0xe6635c01,
+        0x6b6b51f4, 0x1c6c6162, 0x856530d8, 0xf262004e, 0x6c0695ed, 0x1b01a57b, 0x8208f4c1, 0xf50fc457,
+        0x65b0d9c6, 0x12b7e950, 0x8bbeb8ea, 0xfcb9887c, 0x62dd1ddf, 0x15da2d49, 0x8cd37cf3, 0xfbd44c65, 
+        0x4db26158, 0x3ab551ce, 0xa3bc0074, 0xd4bb30e2, 0x4adfa541, 0x3dd895d7, 0xa4d1c46d, 0xd3d6f4fb,
+        0x4369e96a, 0x346ed9fc, 0xad678846, 0xda60b8d0, 0x44042d73, 0x33031de5, 0xaa0a4c5f, 0xdd0d7cc9,
+        0x5005713c, 0x270241aa, 0xbe0b1010, 0xc90c2086, 0x5768b525, 0x206f85b3, 0xb966d409, 0xce61e49f,
+        0x5edef90e, 0x29d9c998, 0xb0d09822, 0xc7d7a8b4, 0x59b33d17, 0x2eb40d81, 0xb7bd5c3b, 0xc0ba6cad,
+        0xedb88320, 0x9abfb3b6, 0x03b6e20c, 0x74b1d29a, 0xead54739, 0x9dd277af, 0x04db2615, 0x73dc1683,
+        0xe3630b12, 0x94643b84, 0x0d6d6a3e, 0x7a6a5aa8, 0xe40ecf0b, 0x9309ff9d, 0x0a00ae27, 0x7d079eb1,
+        0xf00f9344, 0x8708a3d2, 0x1e01f268, 0x6906c2fe, 0xf762575d, 0x806567cb, 0x196c3671, 0x6e6b06e7, 
+        0xfed41b76, 0x89d32be0, 0x10da7a5a, 0x67dd4acc, 0xf9b9df6f, 0x8ebeeff9, 0x17b7be43, 0x60b08ed5,
+        0xd6d6a3e8, 0xa1d1937e, 0x38d8c2c4, 0x4fdff252, 0xd1bb67f1, 0xa6bc5767, 0x3fb506dd, 0x48b2364b,
+        0xd80d2bda, 0xaf0a1b4c, 0x36034af6, 0x41047a60, 0xdf60efc3, 0xa867df55, 0x316e8eef, 0x4669be79,
+        0xcb61b38c, 0xbc66831a, 0x256fd2a0, 0x5268e236, 0xcc0c7795, 0xbb0b4703, 0x220216b9, 0x5505262f,
+        0xc5ba3bbe, 0xb2bd0b28, 0x2bb45a92, 0x5cb36a04, 0xc2d7ffa7, 0xb5d0cf31, 0x2cd99e8b, 0x5bdeae1d,
+        0x9b64c2b0, 0xec63f226, 0x756aa39c, 0x026d930a, 0x9c0906a9, 0xeb0e363f, 0x72076785, 0x05005713,
+        0x95bf4a82, 0xe2b87a14, 0x7bb12bae, 0x0cb61b38, 0x92d28e9b, 0xe5d5be0d, 0x7cdcefb7, 0x0bdbdf21,
+        0x86d3d2d4, 0xf1d4e242, 0x68ddb3f8, 0x1fda836e, 0x81be16cd, 0xf6b9265b, 0x6fb077e1, 0x18b74777, 
+        0x88085ae6, 0xff0f6a70, 0x66063bca, 0x11010b5c, 0x8f659eff, 0xf862ae69, 0x616bffd3, 0x166ccf45,
+        0xa00ae278, 0xd70dd2ee, 0x4e048354, 0x3903b3c2, 0xa7672661, 0xd06016f7, 0x4969474d, 0x3e6e77db, 
+        0xaed16a4a, 0xd9d65adc, 0x40df0b66, 0x37d83bf0, 0xa9bcae53, 0xdebb9ec5, 0x47b2cf7f, 0x30b5ffe9,
+        0xbdbdf21c, 0xcabac28a, 0x53b39330, 0x24b4a3a6, 0xbad03605, 0xcdd70693, 0x54de5729, 0x23d967bf,
+        0xb3667a2e, 0xc4614ab8, 0x5d681b02, 0x2a6f2b94, 0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
+};
 
 uint32_t crc32(uint32_t crc, const void *data, size_t size) {
     uint32_t rem;
     uint8_t octet;
     const uint8_t *p, *q;
     int i, j;
-    
-    if (have_table == 0) {
-        table[0] = 0x00000000;
-        table[1] = 0x77073096;
-        table[2] = 0xee0e612c;
-        table[3] = 0x990951ba;
-        table[4] = 0x076dc419;
-        table[5] = 0x706af48f;
-        table[6] = 0xe963a535;
-        table[7] = 0x9e6495a3;
-        table[8] = 0x0edb8832;
-        table[9] = 0x79dcb8a4;
-        table[10] = 0xe0d5e91e;
-        table[11] = 0x97d2d988;
-        table[12] = 0x09b64c2b;
-        table[13] = 0x7eb17cbd;
-        table[14] = 0xe7b82d07;
-        table[15] = 0x90bf1d91;
-        table[16] = 0x1db71064;
-        table[17] = 0x6ab020f2;
-        table[18] = 0xf3b97148;
-        table[19] = 0x84be41de;
-        table[20] = 0x1adad47d;
-        table[21] = 0x6ddde4eb;
-        table[22] = 0xf4d4b551;
-        table[23] = 0x83d385c7;
-        table[24] = 0x136c9856;
-        table[25] = 0x646ba8c0;
-        table[26] = 0xfd62f97a;
-        table[27] = 0x8a65c9ec;
-        table[28] = 0x14015c4f;
-        table[29] = 0x63066cd9;
-        table[30] = 0xfa0f3d63;
-        table[31] = 0x8d080df5;
-        table[32] = 0x3b6e20c8;
-        table[33] = 0x4c69105e;
-        table[34] = 0xd56041e4;
-        table[35] = 0xa2677172;
-        table[36] = 0x3c03e4d1;
-        table[37] = 0x4b04d447;
-        table[38] = 0xd20d85fd;
-        table[39] = 0xa50ab56b;
-        table[40] = 0x35b5a8fa;
-        table[41] = 0x42b2986c;
-        table[42] = 0xdbbbc9d6;
-        table[43] = 0xacbcf940;
-        table[44] = 0x32d86ce3;
-        table[45] = 0x45df5c75;
-        table[46] = 0xdcd60dcf;
-        table[47] = 0xabd13d59;
-        table[48] = 0x26d930ac;
-        table[49] = 0x51de003a;
-        table[50] = 0xc8d75180;
-        table[51] = 0xbfd06116;
-        table[52] = 0x21b4f4b5;
-        table[53] = 0x56b3c423;
-        table[54] = 0xcfba9599;
-        table[55] = 0xb8bda50f;
-        table[56] = 0x2802b89e;
-        table[57] = 0x5f058808;
-        table[58] = 0xc60cd9b2;
-        table[59] = 0xb10be924;
-        table[60] = 0x2f6f7c87;
-        table[61] = 0x58684c11;
-        table[62] = 0xc1611dab;
-        table[63] = 0xb6662d3d;
-        table[64] = 0x76dc4190;
-        table[65] = 0x01db7106;
-        table[66] = 0x98d220bc;
-        table[67] = 0xefd5102a;
-        table[68] = 0x71b18589;
-        table[69] = 0x06b6b51f;
-        table[70] = 0x9fbfe4a5;
-        table[71] = 0xe8b8d433;
-        table[72] = 0x7807c9a2;
-        table[73] = 0x0f00f934;
-        table[74] = 0x9609a88e;
-        table[75] = 0xe10e9818;
-        table[76] = 0x7f6a0dbb;
-        table[77] = 0x086d3d2d;
-        table[78] = 0x91646c97;
-        table[79] = 0xe6635c01;
-        table[80] = 0x6b6b51f4;
-        table[81] = 0x1c6c6162;
-        table[82] = 0x856530d8;
-        table[83] = 0xf262004e;
-        table[84] = 0x6c0695ed;
-        table[85] = 0x1b01a57b;
-        table[86] = 0x8208f4c1;
-        table[87] = 0xf50fc457;
-        table[88] = 0x65b0d9c6;
-        table[89] = 0x12b7e950;
-        table[90] = 0x8bbeb8ea;
-        table[91] = 0xfcb9887c;
-        table[92] = 0x62dd1ddf;
-        table[93] = 0x15da2d49;
-        table[94] = 0x8cd37cf3;
-        table[95] = 0xfbd44c65;
-        table[96] = 0x4db26158;
-        table[97] = 0x3ab551ce;
-        table[98] = 0xa3bc0074;
-        table[99] = 0xd4bb30e2;
-        table[100] = 0x4adfa541;
-        table[101] = 0x3dd895d7;
-        table[102] = 0xa4d1c46d;
-        table[103] = 0xd3d6f4fb;
-        table[104] = 0x4369e96a;
-        table[105] = 0x346ed9fc;
-        table[106] = 0xad678846;
-        table[107] = 0xda60b8d0;
-        table[108] = 0x44042d73;
-        table[109] = 0x33031de5;
-        table[110] = 0xaa0a4c5f;
-        table[111] = 0xdd0d7cc9;
-        table[112] = 0x5005713c;
-        table[113] = 0x270241aa;
-        table[114] = 0xbe0b1010;
-        table[115] = 0xc90c2086;
-        table[116] = 0x5768b525;
-        table[117] = 0x206f85b3;
-        table[118] = 0xb966d409;
-        table[119] = 0xce61e49f;
-        table[120] = 0x5edef90e;
-        table[121] = 0x29d9c998;
-        table[122] = 0xb0d09822;
-        table[123] = 0xc7d7a8b4;
-        table[124] = 0x59b33d17;
-        table[125] = 0x2eb40d81;
-        table[126] = 0xb7bd5c3b;
-        table[127] = 0xc0ba6cad;
-        table[128] = 0xedb88320;
-        table[129] = 0x9abfb3b6;
-        table[130] = 0x03b6e20c;
-        table[131] = 0x74b1d29a;
-        table[132] = 0xead54739;
-        table[133] = 0x9dd277af;
-        table[134] = 0x04db2615;
-        table[135] = 0x73dc1683;
-        table[136] = 0xe3630b12;
-        table[137] = 0x94643b84;
-        table[138] = 0x0d6d6a3e;
-        table[139] = 0x7a6a5aa8;
-        table[140] = 0xe40ecf0b;
-        table[141] = 0x9309ff9d;
-        table[142] = 0x0a00ae27;
-        table[143] = 0x7d079eb1;
-        table[144] = 0xf00f9344;
-        table[145] = 0x8708a3d2;
-        table[146] = 0x1e01f268;
-        table[147] = 0x6906c2fe;
-        table[148] = 0xf762575d;
-        table[149] = 0x806567cb;
-        table[150] = 0x196c3671;
-        table[151] = 0x6e6b06e7;
-        table[152] = 0xfed41b76;
-        table[153] = 0x89d32be0;
-        table[154] = 0x10da7a5a;
-        table[155] = 0x67dd4acc;
-        table[156] = 0xf9b9df6f;
-        table[157] = 0x8ebeeff9;
-        table[158] = 0x17b7be43;
-        table[159] = 0x60b08ed5;
-        table[160] = 0xd6d6a3e8;
-        table[161] = 0xa1d1937e;
-        table[162] = 0x38d8c2c4;
-        table[163] = 0x4fdff252;
-        table[164] = 0xd1bb67f1;
-        table[165] = 0xa6bc5767;
-        table[166] = 0x3fb506dd;
-        table[167] = 0x48b2364b;
-        table[168] = 0xd80d2bda;
-        table[169] = 0xaf0a1b4c;
-        table[170] = 0x36034af6;
-        table[171] = 0x41047a60;
-        table[172] = 0xdf60efc3;
-        table[173] = 0xa867df55;
-        table[174] = 0x316e8eef;
-        table[175] = 0x4669be79;
-        table[176] = 0xcb61b38c;
-        table[177] = 0xbc66831a;
-        table[178] = 0x256fd2a0;
-        table[179] = 0x5268e236;
-        table[180] = 0xcc0c7795;
-        table[181] = 0xbb0b4703;
-        table[182] = 0x220216b9;
-        table[183] = 0x5505262f;
-        table[184] = 0xc5ba3bbe;
-        table[185] = 0xb2bd0b28;
-        table[186] = 0x2bb45a92;
-        table[187] = 0x5cb36a04;
-        table[188] = 0xc2d7ffa7;
-        table[189] = 0xb5d0cf31;
-        table[190] = 0x2cd99e8b;
-        table[191] = 0x5bdeae1d;
-        table[192] = 0x9b64c2b0;
-        table[193] = 0xec63f226;
-        table[194] = 0x756aa39c;
-        table[195] = 0x026d930a;
-        table[196] = 0x9c0906a9;
-        table[197] = 0xeb0e363f;
-        table[198] = 0x72076785;
-        table[199] = 0x05005713;
-        table[200] = 0x95bf4a82;
-        table[201] = 0xe2b87a14;
-        table[202] = 0x7bb12bae;
-        table[203] = 0x0cb61b38;
-        table[204] = 0x92d28e9b;
-        table[205] = 0xe5d5be0d;
-        table[206] = 0x7cdcefb7;
-        table[207] = 0x0bdbdf21;
-        table[208] = 0x86d3d2d4;
-        table[209] = 0xf1d4e242;
-        table[210] = 0x68ddb3f8;
-        table[211] = 0x1fda836e;
-        table[212] = 0x81be16cd;
-        table[213] = 0xf6b9265b;
-        table[214] = 0x6fb077e1;
-        table[215] = 0x18b74777;
-        table[216] = 0x88085ae6;
-        table[217] = 0xff0f6a70;
-        table[218] = 0x66063bca;
-        table[219] = 0x11010b5c;
-        table[220] = 0x8f659eff;
-        table[221] = 0xf862ae69;
-        table[222] = 0x616bffd3;
-        table[223] = 0x166ccf45;
-        table[224] = 0xa00ae278;
-        table[225] = 0xd70dd2ee;
-        table[226] = 0x4e048354;
-        table[227] = 0x3903b3c2;
-        table[228] = 0xa7672661;
-        table[229] = 0xd06016f7;
-        table[230] = 0x4969474d;
-        table[231] = 0x3e6e77db;
-        table[232] = 0xaed16a4a;
-        table[233] = 0xd9d65adc;
-        table[234] = 0x40df0b66;
-        table[235] = 0x37d83bf0;
-        table[236] = 0xa9bcae53;
-        table[237] = 0xdebb9ec5;
-        table[238] = 0x47b2cf7f;
-        table[239] = 0x30b5ffe9;
-        table[240] = 0xbdbdf21c;
-        table[241] = 0xcabac28a;
-        table[242] = 0x53b39330;
-        table[243] = 0x24b4a3a6;
-        table[244] = 0xbad03605;
-        table[245] = 0xcdd70693;
-        table[246] = 0x54de5729;
-        table[247] = 0x23d967bf;
-        table[248] = 0xb3667a2e;
-        table[249] = 0xc4614ab8;
-        table[250] = 0x5d681b02;
-        table[251] = 0x2a6f2b94;
-        table[252] = 0xb40bbe37;
-        table[253] = 0xc30c8ea1;
-        table[254] = 0x5a05df1b;
-        table[255] = 0x2d02ef8d;
-        have_table = 1;
-    }
 
     crc = ~crc;
     q = (const uint8_t *)data + size;
@@ -282,6 +54,9 @@ uint32_t crc32(uint32_t crc, const void *data, size_t size) {
 void print_table() {
     int i;
     for (i = 0; i < 256; i++) {
-        printf("table[%d] = 0x%08x;\n", i, table[i]);
+        printf("0x%08x, ", table[i]);
+        if (i % 8 == 7) {
+            printf("\n");
+        }
     }
 }

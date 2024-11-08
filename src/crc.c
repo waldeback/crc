@@ -32,3 +32,13 @@ uint32_t crc32(uint32_t crc, const void *data, size_t size) {
     }
     return ~crc;
 }
+
+void print_table() {
+    int i;
+    for (i = 0; i < 256; i++) {
+        printf("0x%08x, ", table[i]);
+        if (i % 8 == 7) {
+            printf("\n");
+        }
+    }
+}

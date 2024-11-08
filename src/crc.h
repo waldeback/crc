@@ -5,4 +5,6 @@
 
 uint32_t crc32(uint32_t crc, const void *data, size_t length);
 
+void print_table();
+
 #endif // CRC_H

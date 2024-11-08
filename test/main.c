@@ -18,8 +18,8 @@ int test_crc32(const char *input, uint32_t expected) {
 int main() {
     int failures = 0;
     failures += test_crc32("", 0);
-    failures += test_crc32("hello world", 0x1c291ca3);
-    failures += test_crc32("!@#$\%^&*()", 0x2d3dd0ae);
+    failures += test_crc32("hello world", 0x0d4a1185);
+    failures += test_crc32("!@#$^&*()", 0x1039503a);
     failures += test_crc32("1234567890", 0x261daee5);
 
     if (failures > 0) {

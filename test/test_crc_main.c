@@ -72,7 +72,8 @@ const uint8_t allvaluescrc[256+4] =
 
     // 0x27, 0xf4, 0xfc, 0xf8, // crc little endian
 
-0xf8, 0xfc, 0xf4, 0x27,
+
+    0xb4, 0xe7, 0xbb, 0x63
 };
 
 
@@ -82,8 +83,8 @@ int main() {
     failures += test_crc32("hello world", 0x0d4a1185);
     failures += test_crc32("!@#$^&*()", 0x1039503a);
     failures += test_crc32("1234567890", 0x261daee5);
-    failures += test_crc32_bin(allvalues, 256, 0xf8fcf427);
-    failures += test_crc32_bin(allvaluescrc, 260, 0xffffffff);
+    failures += test_crc32_bin(allvalues, 256, 0x9c44184b);
+    failures += test_crc32_bin(allvaluescrc, 260, 0);
 
     if (failures > 0) {
         printf("Total failures: %d\n", failures);

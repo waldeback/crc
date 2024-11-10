@@ -10,6 +10,23 @@ uint32_t crc32(uint32_t crc, const void *data, size_t size) {
     uint8_t octet;
     const uint8_t *p, *q;
     int i, j;
+
+//     Name : "CRC-32C"
+
+// Width : 32
+
+// Poly : 1EDC6F41h
+
+// Init : FFFFFFFFh
+
+// RefIn : True
+
+// RefOut : True
+
+// XorOut : FFFFFFFFh
+
+// Check : E3069283h
+
     
     if (have_table == 0) {
         for (i = 0; i < 256; i++) {
@@ -17,7 +34,12 @@ uint32_t crc32(uint32_t crc, const void *data, size_t size) {
             for (j = 0; j < 8; j++) {
                 if (rem & 1) {
                     rem >>= 1;
-                    rem ^= 0xEDB88320;
+                    // rem ^= 0xEDB88320;
+                    // rem ^= 0xEDB88320; 
+
+                    // reverse  1EDC6F41h
+                    rem ^= 0x82F63B78;
+
                 } else
                     rem >>= 1;
             }
